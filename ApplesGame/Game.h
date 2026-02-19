@@ -6,6 +6,7 @@
 #include "Apple.h"
 #include "Rock.h"
 #include "Text.h"
+#include "Leaderboard.h"
 
 namespace CatAndApples
 {
@@ -34,6 +35,9 @@ namespace CatAndApples
 		int fixedAppleCount = 10;
 
 		GameState state = GameState::ModeSelection;
+
+		Leaderboard leaderboard;
+		std::string playerName = "Player";
 	};
 
 	void RestartGame(Game& game);
@@ -42,5 +46,6 @@ namespace CatAndApples
 	void ProcessSelectionMenu(Game& game, sf::Event event);
 	void UpdateGame(Game& game, float deltaTime);
 	void DrawGame(Game& game, sf::RenderWindow& window);
+	void DrawLeaderboard(Game& game, sf::RenderWindow& window);
 	void DeinializeGame(Game& game);
 }

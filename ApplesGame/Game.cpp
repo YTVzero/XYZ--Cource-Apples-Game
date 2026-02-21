@@ -15,9 +15,12 @@ namespace CatAndApples
 		ExitOrContTextGame(game.text, game);
 		MenuText(game.text, game);      
 		GameOverTextGame(game.text, game);
+		LeaderboardTextGame(game.text, game);
 
 		game.state = GameState::ModeSelection;
 		game.gameMode = 0;
+
+		game.leaderboard.GenerateFakeData();
 	}
 
 	void RestartGame(Game& game)
@@ -26,13 +29,14 @@ namespace CatAndApples
 
 		ApplyGameMode(game);
 
+
 		// Init rocks
 		for (int i = 0; i < NUM_ROCKS; ++i)
 		{
 			InitRock(game.rock[i]);
 		}
 
-		game.numEatenApples = 0;
+		//game.numEatenApples = 0;
 		game.isGameFinished = false;
 		game.timeSinceGameFinish = 0;
 		game.state = GameState::Playing;
@@ -111,6 +115,7 @@ namespace CatAndApples
 			CollisionWithApple(game.apples, game.numApples, game.player, game.numEatenApples, game.gameMode);
 			CollisionWithRock(game.rock, game.player, game.isGameFinished, game.timeSinceGameFinish);
 			CollisionPlayerWithBounds(game.player, game.isGameFinished, game.timeSinceGameFinish);
+		
 		}
 		else
 		{
@@ -123,6 +128,10 @@ namespace CatAndApples
 			else
 			{
 				game.background.setFillColor(sf::Color::Black);
+
+				game.leaderboard.UpdatePlayerScore(game.playerName, game.numEatenApples, false);
+				LeaderboardTextGame(game.text, game);
+
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
 				{
 					RestartGame(game);
@@ -151,6 +160,7 @@ namespace CatAndApples
 		if (game.isGameFinished)
 		{
 			DrawDinamicText(game.text, window);
+			DrawLeaderboardText(game.text, window);
 		}
 	}
 

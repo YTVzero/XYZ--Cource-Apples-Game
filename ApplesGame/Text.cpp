@@ -1,5 +1,6 @@
 #include "Text.h"
 #include "Game.h"
+#include <sstream>
 
 namespace CatAndApples
 {
@@ -30,7 +31,7 @@ namespace CatAndApples
 
 		sf::FloatRect gameOverFloatRect = text.gameOverText.getLocalBounds();
 		text.gameOverText.setOrigin(gameOverFloatRect.width / 2.f, gameOverFloatRect.height / 2.f);
-		text.gameOverText.setPosition(SCREEN_WIDTH / 2.f, SCREEN_HEIGHT / 2.f);
+		text.gameOverText.setPosition(SCREEN_WIDTH / 2.f, SCREEN_HEIGHT / 3.3f);
 	}
 
 	void ManualTextGame(Text& text, Game& game)
@@ -59,7 +60,7 @@ namespace CatAndApples
 
 		sf::FloatRect ExitOrContFloatRect = text.exitOrContText.getLocalBounds();
 		text.exitOrContText.setOrigin(ExitOrContFloatRect.width / 2.f, ExitOrContFloatRect.height / 2.f);
-		text.exitOrContText.setPosition(SCREEN_WIDTH / 2.f, SCREEN_HEIGHT / 1.75f);
+		text.exitOrContText.setPosition(SCREEN_WIDTH / 2.f, SCREEN_HEIGHT / 1.4f);
 	}
 
 	void MenuText(Text& text, Game& game)
@@ -79,6 +80,44 @@ namespace CatAndApples
 		text.menuText.setPosition(SCREEN_WIDTH / 5.f, SCREEN_HEIGHT / 5.f);
 	}
 
+	void LeaderboardTextGame(Text& text, Game& game)
+	{
+		text.gameFont.loadFromFile(RESOURCES_PATH + "Fonts/Roboto-ThinItalic.ttf");
+		
+		std::ostringstream leaderboardStr;
+		leaderboardStr << "===== LEADERBOARD =====\n";
+
+		const auto& records = game.leaderboard.GetSortedRecords();
+		for (size_t i = 0; i < records.size(); ++i)
+		{
+			leaderboardStr << i + 1 << "." << records[i].name << " ";
+
+
+			int dotsCount = 15 - records[i].name.length();
+			for (int j = 0; j < dotsCount; ++j)
+			{
+				leaderboardStr << ".";
+			}
+
+			leaderboardStr << " " << records[i].score << "\n";
+		}
+
+		leaderboardStr << "===========================\n";
+		leaderboardStr << "You score: "<<game.numEatenApples;
+
+		text.leaderboardText.setFont(text.gameFont);
+		text.leaderboardText.setCharacterSize(25);
+		text.leaderboardText.setFillColor(sf::Color::Yellow);
+		text.leaderboardText.setOutlineThickness(1);
+		text.leaderboardText.setOutlineColor(sf::Color::White);
+		text.leaderboardText.setString(leaderboardStr.str());
+
+		sf::FloatRect leaderboardRect = text.leaderboardText.getLocalBounds();
+		text.leaderboardText.setOrigin(leaderboardRect.width / 2.f, leaderboardRect.height / 2.f);
+		text.leaderboardText.setPosition(SCREEN_WIDTH / 2.f, SCREEN_HEIGHT / 2.f);
+
+	}
+
 	void DrawStaticText(Text& text,sf::RenderWindow& window)
 	{
 		window.draw(text.scoreText);
@@ -89,6 +128,11 @@ namespace CatAndApples
 	{
 		window.draw(text.gameOverText);
 		window.draw(text.exitOrContText);
+	}
+
+	void DrawLeaderboardText(Text& text, sf::RenderWindow& window)
+	{
+		window.draw(text.leaderboardText);
 	}
 
 }

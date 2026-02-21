@@ -60,7 +60,7 @@ int main()
 				<< "3  Lots of apples (~45)            " << ((game.gameMode & MODE_MANY_APPLES) ? "ON" : "OFF") << "\n"
 				<< "4  Acceleration after the apple       " << ((game.gameMode & MODE_ACCELERATION) ? "ON" : "OFF") << "\n"
 				<< "5  WITHOUT ACCELERATION               " << ((game.gameMode & MODE_WITHOUT_ACCELERATION) ? "ON" : "OFF") << "\n\n"
-				<< "Current mode: " << game.gameMode << "\n"
+		
 				<< "Press ENTER to start";
 
 			game.text.menuText.setString(menuStr.str());

@@ -11,7 +11,7 @@ namespace CatAndApples
 
 	const float INITIAL_SPEED = 100.f;
 	const float PLAYER_SIZE = 80.f;
-	const float ACCELERATION = 50.f;
+	const float ACCELERATION = 15.f;
 
 	const float APPLE_SIZE = 70.f;
 

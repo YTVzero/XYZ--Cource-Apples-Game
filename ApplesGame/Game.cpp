@@ -19,8 +19,6 @@ namespace CatAndApples
 
 		game.state = GameState::ModeSelection;
 		game.gameMode = 0;
-
-		game.leaderboard.GenerateFakeData();
 	}
 
 	void RestartGame(Game& game)
@@ -31,9 +29,12 @@ namespace CatAndApples
 
 
 		// Init rocks
+		game.rocks.clear();
+		game.rocks.reserve(NUM_ROCKS);
 		for (int i = 0; i < NUM_ROCKS; ++i)
 		{
-			InitRock(game.rock[i]);
+			game.rocks.emplace_back();
+			InitRock(game.rocks.back());
 		}
 
 		//game.numEatenApples = 0;
@@ -50,13 +51,9 @@ namespace CatAndApples
 
 	void ApplyGameMode(Game& game)
 	{
-		if (game.apples != nullptr)
-		{
-			delete[] game.apples;
-			game.apples = nullptr;
-		}
+		game.apples.clear();
 
-		int howMany = game.fixedAppleCount;
+		int howMany = 10;
 
 		if (game.gameMode & MODE_RANDOM_APPLES)
 		{
@@ -72,12 +69,13 @@ namespace CatAndApples
 		{
 			howMany = 12 + (rand() % 6);
 		}
-		game.numApples = howMany;
-		game.apples = new Apple[game.numApples];
 
-		for (int i = 0; i < game.numApples; ++i)
+		game.apples.reserve(howMany);
+
+		for (int i = 0; i < howMany; ++i)
 		{
-			InitApple(game.apples[i]);
+			game.apples.emplace_back();
+			InitApple(game.apples.back());
 		}
 
 		game.player.speed = INITIAL_SPEED;
@@ -112,8 +110,8 @@ namespace CatAndApples
 		{
 			ScoreTextGame(game.text, game);
 			PlayerControl(game.player, deltaTime);
-			CollisionWithApple(game.apples, game.numApples, game.player, game.numEatenApples, game.gameMode);
-			CollisionWithRock(game.rock, game.player, game.isGameFinished, game.timeSinceGameFinish);
+			CollisionWithApple(game.apples, game.player, game.numEatenApples, game.gameMode);
+			CollisionWithRock(game.rocks, game.player, game.isGameFinished, game.timeSinceGameFinish);
 			CollisionPlayerWithBounds(game.player, game.isGameFinished, game.timeSinceGameFinish);
 		
 		}
@@ -153,8 +151,8 @@ namespace CatAndApples
 
 		window.draw(game.background);
 		DrawPlayer(game.player,window);
-		DrawApple(game.apples, game.numApples, window);
-		DrawRock(game.rock, window);
+		DrawApple(game.apples, window);
+		DrawRock(game.rocks, window);
 		DrawStaticText(game.text, window);
 		
 		if (game.isGameFinished)
@@ -166,10 +164,7 @@ namespace CatAndApples
 
 	void DeinializeGame(Game& game)
 	{
-		if (game.apples != nullptr)
-		{
-			delete[] game.apples;
-			game.apples = nullptr;
-		}
+		game.apples.clear();
+		game.rocks.clear();
 	}
 }

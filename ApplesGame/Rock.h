@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include <vector>
 #include "Constants.h"
 #include "Math.h"
 
@@ -13,9 +14,15 @@ namespace CatAndApples
 		Position2D position;
 		sf::Sprite sprite;
 		sf::Texture texture;
+
+		Rock() = default;
+		Rock(const Rock&) = delete;
+		Rock& operator=(const Rock&) = delete;
+		Rock(Rock&&) = default;
+		Rock& operator=(Rock&&) = default;
 	};
 
 	void InitRock(Rock& rock);
-	void CollisionWithRock(Rock* rock, Player& player, bool& isGameFinished, float& timeSinceGameFinish);
-	void DrawRock(Rock* rock, sf::RenderWindow& window);
+	void CollisionWithRock(std::vector<Rock>& rocks, Player& player, bool& isGameFinished, float& timeSinceGameFinish);
+	void DrawRock(std::vector<Rock>& rocks, sf::RenderWindow& window);
 }

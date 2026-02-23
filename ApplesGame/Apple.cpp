@@ -26,35 +26,30 @@ namespace CatAndApples
 		apple.sound.setBuffer(apple.buffer);
 	}
 
-	void CollisionWithApple(Apple* apples, int numApples, Player& player, int& numEatenApples, unsigned int gameMode)
+	void CollisionWithApple(std::vector<Apple>& apples, Player& player, int& numEatenApples, unsigned int gameMode)
 	{
-		for (int i = 0; i < numApples; ++i)
+		for (Apple& apple : apples)
 		{
 			if (IsCirclesCollide(player.position, PLAYER_SIZE / 2.f,
-				apples[i].position, APPLE_SIZE / 4.f))
+				apple.position, APPLE_SIZE / 4.f))
 			{
-				apples[i].position = GetRandomPositionInScreen(SCREEN_WIDTH, SCREEN_HEIGHT);
+				apple.position = GetRandomPositionInScreen(SCREEN_WIDTH, SCREEN_HEIGHT);
 				++numEatenApples;
 				if ((gameMode & MODE_ACCELERATION) && !(gameMode & MODE_WITHOUT_ACCELERATION))
 				{
 					player.speed += ACCELERATION;
 				}
-				apples[i].sound.play();
+				apple.sound.play();
 			}
 		}
 	}
 
-	void DrawApple(Apple* apples, int numApples, sf::RenderWindow& window)
+	void DrawApple(std::vector<Apple>& apples, sf::RenderWindow& window)
 	{
-		if (apples == nullptr || numApples <= 0)
+		for (Apple& apple : apples)
 		{
-			return; 
-		}
-
-		for (int i = 0; i < numApples; ++i)
-		{
-			apples[i].sprite.setPosition(apples[i].position.x, apples[i].position.y);
-			window.draw(apples[i].sprite);
+			apple.sprite.setPosition(apple.position.x, apple.position.y);
+			window.draw(apple.sprite);
 		}
 
 	}

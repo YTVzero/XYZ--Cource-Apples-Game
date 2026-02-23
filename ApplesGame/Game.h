@@ -7,6 +7,7 @@
 #include "Rock.h"
 #include "Text.h"
 #include "Leaderboard.h"
+#include <vector>
 
 namespace CatAndApples
 {
@@ -20,9 +21,8 @@ namespace CatAndApples
 	struct Game
 	{
 		Player player;
-		Apple* apples = nullptr;
-		int numApples = 0;
-		Rock rock[NUM_ROCKS];
+		std::vector <Apple> apples;
+		std::vector <Rock> rocks;
 
 		// Global game data
 		int numEatenApples = 0;
@@ -32,7 +32,6 @@ namespace CatAndApples
 		Text text;
 
 		unsigned int gameMode = 0;
-		int fixedAppleCount = 10;
 
 		GameState state = GameState::ModeSelection;
 
@@ -46,6 +45,5 @@ namespace CatAndApples
 	void ProcessSelectionMenu(Game& game, sf::Event event);
 	void UpdateGame(Game& game, float deltaTime);
 	void DrawGame(Game& game, sf::RenderWindow& window);
-	void DrawLeaderboard(Game& game, sf::RenderWindow& window);
 	void DeinializeGame(Game& game);
 }

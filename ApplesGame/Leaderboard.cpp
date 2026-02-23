@@ -59,7 +59,7 @@ namespace CatAndApples
 
 	void Leaderboard::SortRecords()
 	{
-		for (size_t i = 1; i < sortedRecords.size(); ++i)
+		for (int i = 1; i < sortedRecords.size(); ++i)
 		{
 			Record key = sortedRecords[i];
 			int j = i - 1;

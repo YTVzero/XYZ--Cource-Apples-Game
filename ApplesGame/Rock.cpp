@@ -19,12 +19,12 @@ namespace CatAndApples
 			targetSize.y / rock.sprite.getLocalBounds().height);
 	}
 
-	void CollisionWithRock(Rock* rock, Player& player, bool& isGameFinished, float& timeSinceGameFinish)
+	void CollisionWithRock(std::vector<Rock>& rocks, Player& player, bool& isGameFinished, float& timeSinceGameFinish)
 	{
-		for (int i = 0; i < NUM_ROCKS; ++i)
+		for (Rock& rock : rocks)
 		{
 			if (IsRectanglesCollide(player.position, { PLAYER_SIZE / 2.5f, PLAYER_SIZE / 2.5f },
-				rock[i].position, { ROCK_SIZE / 3.f, ROCK_SIZE / 1.2f }))
+				rock.position, { ROCK_SIZE / 3.f, ROCK_SIZE / 1.2f }))
 			{
 				isGameFinished = true;
 				timeSinceGameFinish = 0.f;
@@ -33,12 +33,12 @@ namespace CatAndApples
 		}
 	}
 
-	void DrawRock(Rock* rock, sf::RenderWindow& window)
+	void DrawRock(std::vector<Rock>& rocks, sf::RenderWindow& window)
 	{
-		for (int i = 0; i < NUM_ROCKS; ++i)
+		for (Rock& rock : rocks)
 		{
-			rock[i].sprite.setPosition(rock[i].position.x, rock[i].position.y);
-			window.draw(rock[i].sprite);
+			rock.sprite.setPosition(rock.position.x, rock.position.y);
+			window.draw(rock.sprite);
 		}
 	}
 }

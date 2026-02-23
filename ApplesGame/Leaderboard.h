@@ -8,7 +8,7 @@ namespace CatAndApples
 	struct Record
 	{
 		std::string name;
-		int score;
+		int score = 0;
 	};
 
 	class Leaderboard

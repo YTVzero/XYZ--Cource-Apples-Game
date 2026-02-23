@@ -41,7 +41,7 @@ namespace CatAndApples
 		text.manualText.setFont(text.gameFont);
 		text.manualText.setCharacterSize(20);
 		text.manualText.setFillColor(sf::Color::White);
-		text.manualText.setString("Movements:\nW - up\nA - Left\nD - Rigth\nS - Down\nEscape - Exit");
+		text.manualText.setString("Movements:\nW - Up\nA - Left\nD - Right\nS - Down\nEscape - Exit");
 
 		sf::FloatRect ManualFloatRect = text.manualText.getLocalBounds();
 		text.manualText.setOrigin(ManualFloatRect.width / 2.f, ManualFloatRect.height / 2.f);
@@ -88,7 +88,7 @@ namespace CatAndApples
 		leaderboardStr << "===== LEADERBOARD =====\n";
 
 		const auto& records = game.leaderboard.GetSortedRecords();
-		for (size_t i = 0; i < records.size(); ++i)
+		for (int i = 0; i < records.size(); ++i)
 		{
 			leaderboardStr << i + 1 << "." << records[i].name << " ";
 

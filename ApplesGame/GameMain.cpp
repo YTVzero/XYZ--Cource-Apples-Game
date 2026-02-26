@@ -33,16 +33,52 @@ int main()
 
 		while (window.pollEvent(event))
 		{
-			
 			if (event.type == sf::Event::Closed)
 			{
 				window.close();
-				
 			}
-			if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)
+
+			if (event.type == sf::Event::KeyPressed)
 			{
-				window.close();
+				if (event.key.code == sf::Keyboard::Escape)
+				{
+					if (game.state == GameState::Playing && !game.isGameFinished)
+					{
+						game.previousState = game.state;
+						game.pauseSelection = 1;  
+						game.state = GameState::PauseExit;
+						PauseExitText(game.text, game);  
+					}
+					else if (game.state == GameState::ModeSelection)
+					{
+						window.close();
+					}
+					else if (game.state == GameState::PauseExit)
+					{
+						game.state = game.previousState;
+					}
+				}
+
 				
+				if (game.state == GameState::PauseExit)
+				{
+					if (event.key.code == sf::Keyboard::Left || event.key.code == sf::Keyboard::Right)
+					{
+						game.pauseSelection = (game.pauseSelection == 0) ? 1 : 0;
+						PauseExitText(game.text, game); 
+					}
+					else if (event.key.code == sf::Keyboard::Enter)
+					{
+						if (game.pauseSelection == 0)  
+						{
+							window.close();
+						}
+						else                           
+						{
+							game.state = game.previousState;
+						}
+					}
+				}
 			}
 
 			ProcessSelectionMenu(game, event);
@@ -50,17 +86,27 @@ int main()
 		}
 		window.clear(sf::Color::Black);
 
-
 		if (game.state == GameState::ModeSelection)
 		{
 			ModeSelection(game, window);
 		}
-		else
+		else if (game.state == GameState::PauseExit)
+		{
+			
+			DrawGame(game, window);
+
+			
+			sf::RectangleShape overlay(sf::Vector2f(SCREEN_WIDTH, SCREEN_HEIGHT));
+			overlay.setFillColor(sf::Color(0, 0, 0, 160));
+			window.draw(overlay);
+
+			DrawPauseExitText(game.text, window);
+		}
+		else  
 		{
 			UpdateGame(game, deltaTime);
 			DrawGame(game, window);
 		}
-		
 
 		window.display();
 	}

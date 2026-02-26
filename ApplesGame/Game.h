@@ -36,6 +36,8 @@ namespace CatAndApples
 		unsigned int gameMode = 0;
 
 		GameState state = GameState::ModeSelection;
+		GameState previousState = GameState::Playing;
+		int pauseSelection = 0;
 
 		Leaderboard leaderboard;
 		std::string playerName = "Player";

@@ -118,6 +118,38 @@ namespace CatAndApples
 
 	}
 
+	void PauseExitText(Text& text, Game& game)
+	{
+		text.gameFont.loadFromFile(RESOURCES_PATH + "Fonts/Roboto-ThinItalic.ttf");
+
+		text.pauseExitText.setFont(text.gameFont);
+		text.pauseExitText.setCharacterSize(45);
+		text.pauseExitText.setStyle(sf::Text::Bold);
+		text.pauseExitText.setFillColor(sf::Color::White);
+		text.pauseExitText.setOutlineThickness(2);
+		text.pauseExitText.setOutlineColor(sf::Color::Black);
+
+		// Формируем полный текст с выбором Yes / No
+		std::string question = "You want to exit from game?";
+
+		std::string yes = (game.pauseSelection == 0) ? "> Yes <" : "  Yes  ";
+		std::string no = (game.pauseSelection == 1) ? "> No  <" : "  No   ";
+
+		// Собираем всё вместе
+		std::string fullText = question + "\n\n"
+			+ "          " + yes + "          " + no;
+
+		text.pauseExitText.setString(fullText);
+
+		// Центрируем текст
+		sf::FloatRect pauseRect = text.pauseExitText.getLocalBounds();
+		text.pauseExitText.setOrigin(
+			pauseRect.left + pauseRect.width / 2.f,
+			pauseRect.top + pauseRect.height / 2.f
+		);
+		text.pauseExitText.setPosition(SCREEN_WIDTH / 2.f, SCREEN_HEIGHT / 2.f - 40.f);  // чуть выше центра
+	}
+
 	void DrawStaticText(Text& text,sf::RenderWindow& window)
 	{
 		window.draw(text.scoreText);
@@ -133,6 +165,11 @@ namespace CatAndApples
 	void DrawLeaderboardText(Text& text, sf::RenderWindow& window)
 	{
 		window.draw(text.leaderboardText);
+	}
+
+	void DrawPauseExitText(Text& text, sf::RenderWindow& window)
+	{
+		window.draw(text.pauseExitText);
 	}
 
 }

@@ -8,6 +8,7 @@
 #include "Text.h"
 #include "Leaderboard.h"
 #include <vector>
+#include <sstream>
 
 namespace CatAndApples
 {
@@ -15,7 +16,8 @@ namespace CatAndApples
 	{
 		ModeSelection,
 		Playing,
-		GameOver
+		GameOver,
+		PauseExit
 	};
 
 	struct Game
@@ -43,6 +45,7 @@ namespace CatAndApples
 	void ApplyGameMode(Game& game);
 	void InitGame(Game& game);
 	void ProcessSelectionMenu(Game& game, sf::Event event);
+	void ModeSelection(Game& game, sf::RenderWindow& window);
 	void UpdateGame(Game& game, float deltaTime);
 	void DrawGame(Game& game, sf::RenderWindow& window);
 	void DeinializeGame(Game& game);

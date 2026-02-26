@@ -2,7 +2,6 @@
 #include <SFML/Audio.hpp>
 #include "Constants.h"
 #include "Game.h"
-#include <sstream>
 
 int main()
 {
@@ -51,26 +50,17 @@ int main()
 		}
 		window.clear(sf::Color::Black);
 
+
 		if (game.state == GameState::ModeSelection)
 		{
-			std::ostringstream menuStr;
-			menuStr << "=== MODE SELECTION ===\n\n"
-				<< "1  The normal number of apples      " << ((game.gameMode & MODE_NORMAL_APPLES) ? "ON" : "OFF") << "\n"
-				<< "2  Random number of apples       " << ((game.gameMode & MODE_RANDOM_APPLES) ? "ON" : "OFF") << "\n"
-				<< "3  Lots of apples (~45)            " << ((game.gameMode & MODE_MANY_APPLES) ? "ON" : "OFF") << "\n"
-				<< "4  Acceleration after the apple       " << ((game.gameMode & MODE_ACCELERATION) ? "ON" : "OFF") << "\n"
-				<< "5  WITHOUT ACCELERATION               " << ((game.gameMode & MODE_WITHOUT_ACCELERATION) ? "ON" : "OFF") << "\n\n"
-		
-				<< "Press ENTER to start";
-
-			game.text.menuText.setString(menuStr.str());
-			window.draw(game.text.menuText);
+			ModeSelection(game, window);
 		}
 		else
 		{
 			UpdateGame(game, deltaTime);
 			DrawGame(game, window);
 		}
+		
 
 		window.display();
 	}
